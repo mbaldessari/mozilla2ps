@@ -1,0 +1,37 @@
+* Download
+
+Homepage: http://acksyn.org/mozilla2ps
+Code: https://bitbucket.org/mbaldessari/mozilla2ps
+
+* Usage and configuration
+
+Make sure you have Xulrunner correctly installed.
+
+xulrunner --install-app mozilla2ps-0.8.xulapp /tmp
+xulrunner /tmp/mozilla2ps/application.ini file:///tmp/foo.html /tmp/foo.ps
+xulrunner /tmp/mozilla2ps/application.ini --pdf=true http://www.lwn.net /tmp/lwn.pdf
+
+* Running on Windows
+
+In order to get mozilla2ps to work on windows you'll need to install
+a suitable postscript printer. Download the "winsteng.exe" from Adobe
+http://www.adobe.com/support/downloads/product.jsp?product=44&platform=Windows
+install and configure a printer called "Generic PostScript Printer" that prints
+to a FILE: port.
+At this point mozill2ps should work normally on windows as well with no 
+changes.
+
+* Font spacing problems
+If the font spacing of your printed output is bad, you need to tweak fontconfig
+to disable autohinting. This is a well-known problem with XUL:
+https://bugzilla.mozilla.org/show_bug.cgi?id=490475
+
+The best solution is to tweak fonts.conf and set the autohinting to none:
+ <match target="font" >
+  <edit mode="assign" name="hintstyle" >
+   <const>hintnone</const>
+  </edit>
+ </match>
+
+If chaning the system wide defaults (/etc/fonts/*) is no acceptable, it is possible
+to change the .fonts.conf of the user running the script
